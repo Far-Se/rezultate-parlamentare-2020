@@ -90,7 +90,7 @@ document.getElementById('darkMode').onclick = function() {
 		lightTile.addTo(map);
 		darkTile.removeFrom(map); 
 	}  
-}
+} 
 
 var map = L.map('map').setView([45.9628666, 25.2081763], 7.4);
 window.map = map;
