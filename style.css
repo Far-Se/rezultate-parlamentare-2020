@@ -1,0 +1,181 @@
+html,
+body {
+	height: 100%;
+	margin: 0;
+}
+
+#map {
+	width: 100vw;
+	height: 100vh;
+}
+
+h1,
+h2,
+h3 {
+	margin: 5px;
+}
+
+div#darkMode {
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 99999;
+	font-size: 30px;
+	cursor: pointer;
+}
+
+.candidat {
+	text-shadow: 1px 1px 0 #333, -1px -1px 0 #333, 1px -1px 0 #333, -1px 1px 0 #333, 2px 2px 5px rgba(0, 0, 0, 0.65);
+	color: white;
+	background: black;
+	margin: 0px -20px;
+	padding: 0px 10px;
+}
+
+h2.winner {
+	margin: 0px -20px;
+}
+
+h3 {
+	margin: 0 -20px;
+}
+
+.candidat .nume {
+	font-size: 16px;
+	text-align: center;
+	padding-top: 5px;
+}
+
+.candidat .date p {
+	margin: 0;
+	padding: 0;
+	font-size: 14px;
+}
+
+h2,
+h3 {
+	padding: 5px 15px;
+}
+
+.candidat .date {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+	padding-bottom: 10px;
+	margin-top: 5px;
+	padding: 0px 10px 10px 10px;
+}
+
+.info {
+	font-size: 14px;
+	padding: 5px;
+}
+
+div#legendC #collapse span {
+	background: black;
+	filter: grayscale(1);
+	line-height: 9px;
+	padding: 10px 70px;
+}
+
+.date p:nth-child(2) {
+	margin-left: auto;
+	margin-right: 20px;
+}
+div#legendC {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	z-index: 9999;
+	font-size: 11px;
+}
+
+div#legendC span {
+	padding: 10px;
+	display: block;
+	line-height: 0;
+	color: white;
+	text-shadow: 1px 1px 0 #333, -1px -1px 0 #333, 1px -1px 0 #333, -1px 1px 0 #333, 2px 2px 5px rgba(0, 0, 0, 0.65);
+}
+
+.toggleButton {
+
+	background: #c3ff00;
+	cursor: pointer;
+	text-align: center;
+	font-size: 14px;
+	line-height: 30px;
+	box-shadow: inset 0px 1px 2px 1px #5a5a5a8c;
+}
+
+#legendC .hide {
+	display: none;
+}
+
+#legend div:hover {
+	cursor: pointer;
+	background: white !important;
+}
+
+#legend div:hover span {
+	color: black;
+	text-shadow: none;
+}
+
+@media all and (max-width:600px) {
+	select#elections {
+		font-size: 13px;
+		line-height: 10px;
+		padding: 5px;
+	}
+}
+
+.overFlow {
+	max-height: 200px;
+	overflow-y: scroll;
+}
+
+h4 {
+	margin: 0;
+	padding: 3px;
+	font-size: 14px;
+	font-family: Consolas;
+	text-shadow: 0.07em 0 black,
+		0 0.07em black,
+		-0.07em 0 black,
+		0 -0.07em black;
+	color: white;
+	background: dimgrey;
+}
+h4 span {
+    color: transparent;
+    filter: invert(1) grayscale(1) contrast(100);
+    background: inherit;
+    text-shadow: none;
+    -webkit-background-clip: text !important;
+    background-clip: text;
+    font-family: Consolas;
+}
+div#legendC div[data-votes]> span {
+    color: transparent;
+    filter: invert(1) grayscale(1) contrast(100);
+    background: inherit;
+    text-shadow: none !important;
+    -webkit-background-clip: text !important;
+    background-clip: text;
+    font-family: Consolas;
+    font-size: 13px;
+    font-weight: bold;
+}
+#setari {
+    display:flex;
+    flex-direction: row;
+}
+.tipIzolare {
+	background: black;
+	color: white;
+	font-size: 15px;
+	font-family: Consolas;
+	order: 2;
+	width: 100%;
+}

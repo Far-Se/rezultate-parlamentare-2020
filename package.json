@@ -1,0 +1,27 @@
+{
+	"name": "parlamentare-2020",
+	"version": "1.0.0",
+	"description": "",
+	"main": "generate.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"git": "git add . && git commit -m \"-\" && git push",
+		"getS": "cd data/senat/ && curl -O \"https://prezenta.roaep.ro/parlamentare06122020/data/csv/sicpv/pv_prov_cnty_s_{ab,ar,ag,bc,bh,bn,bt,br,bv,bz,cl,cs,cj,ct,cv,db,dj,gl,gr,gj,hr,hd,il,is,if,mm,mh,s1,s2,s3,s4,s5,s6,ms,nt,ot,ph,sj,sm,sb,sv,tr,tm,tl,vl,vs,vn}.csv\"",
+		"getCD": "cd data/camera_deputatilor/ && curl -O \"https://prezenta.roaep.ro/parlamentare06122020/data/csv/sicpv/pv_prov_cnty_cd_{ab,ar,ag,bc,bh,bn,bt,br,bv,bz,cl,cs,cj,ct,cv,db,dj,gl,gr,gj,hr,hd,il,is,if,mm,mh,s1,s2,s3,s4,s5,s6,ms,nt,ot,ph,sj,sm,sb,sv,tr,tm,tl,vl,vs,vn}.csv\"",
+		"getData": "npm run getS && npm run getCD"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Far-Se/parlamentare-2020.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/Far-Se/parlamentare-2020/issues"
+	},
+	"homepage": "https://github.com/Far-Se/parlamentare-2020#readme",
+	"dependencies": {
+		"csv2json": "^2.0.2",
+		"csvtojson": "^2.0.10"
+	}
+}
