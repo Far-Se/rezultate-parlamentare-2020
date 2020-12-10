@@ -1,3 +1,8 @@
+## Links:
+
+[Rezultate Alegeri](https://far-se.github.io/rezultate-parlamentare-2020/prezenta.html)
+
+[Prezenta la Vot](https://far-se.github.io/rezultate-parlamentare-2020/prezenta.html)
 ## How to run:
 1. run `npm i`
 2. run `npm run getData` 
