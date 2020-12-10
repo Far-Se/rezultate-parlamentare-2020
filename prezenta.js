@@ -88,7 +88,7 @@ document.getElementById('darkMode').onclick = function() {
 		document.getElementById('darkMode').innerText = '🔆';
 		isLight = true;
 		lightTile.addTo(map);
-		darkTile.removeFrom(map);
+		darkTile.removeFrom(map); 
 	}
 }
 
