@@ -76,22 +76,7 @@ function titleCase(str) {
 	}
 	return splitStr.join(' ');
 }
-const hour = Math.max(7, Math.min(new Date().getHours(), 20));
-// hour = Math.max(7, Math.min(hour, 20))
-for (let i = 7; i <= 21; i++) {
 
-	document.getElementById('elections').insertAdjacentHTML('beforeend', `<option value="` + ('0' + i).slice(-2) + `-00">Ora ` + ('0' + i).slice(-2) + ``);
-}
-const urlParams = new URLSearchParams(window.location.search);
-let election = urlParams.get('hour');
-if (!election) election = ('0' + hour).slice(-2) + "-00";
-document.querySelector('#elections [value="' + election + '"]').selected = true;
-
-document.getElementById('elections').onchange = function() {
-	let e = document.getElementById('elections');
-	const val = e.options[e.selectedIndex].value;
-	window.location = `prezenta.html?hour=${val}`;
-}
 let isLight = true;
 document.getElementById('darkMode').onclick = function() {
 	if (isLight) {
@@ -208,8 +193,7 @@ window.reparseData = () => {
 		});
 }
 let electionData = {};
-fetch(`https://cors-anywhere.herokuapp.com/https://prezenta.roaep.ro/parlamentare06122020/data/csv/simpv/presence_2020-12-06_${election}.csv`)
-//fetch("presence.csv")
+fetch(`data/prezenta.csv`)
 	.then(response => response.text())
 	.then(json => {
 		let data = csvJSON(json);
