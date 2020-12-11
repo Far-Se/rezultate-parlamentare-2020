@@ -1,6 +1,6 @@
 ## Links:
 
-[Rezultate Alegeri](https://far-se.github.io/rezultate-parlamentare-2020/prezenta.html)
+[Rezultate Alegeri](https://far-se.github.io/rezultate-parlamentare-2020/)
 
 [Prezenta la Vot](https://far-se.github.io/rezultate-parlamentare-2020/prezenta.html)
 ## How to run:
