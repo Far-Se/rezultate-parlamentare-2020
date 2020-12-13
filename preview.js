@@ -18,7 +18,7 @@ Object.keys(window.partide).forEach((e) => {
 	legend.insertAdjacentHTML('beforeend', `
     <div style="background: ${window.partide[e]};" data-partid="${e}"><span>${e}</span></div>
     `)
-})  
+})
 
 let els = document.querySelectorAll('#legend div');
 for (i = 0; i < els.length; i++) {
@@ -28,7 +28,7 @@ for (i = 0; i < els.length; i++) {
 		if (window.partySelected == party) window.partySelected = 0;
 		else window.partySelected = party;
 		window.reparseData();
-	}); 
+	});
 }
 
 const urlParams = new URLSearchParams(window.location.search);
@@ -43,22 +43,22 @@ if (~election.indexOf('2')) {
 
 document.getElementById('elections').onchange = function() {
 	let e = document.getElementById('elections');
-    election =  e.options[e.selectedIndex].value;
-    if (~election.indexOf('2')) {
-        Locul2 = true;
-        election = election.substr(1);
-    }
-    window.prepareData();
+	election = e.options[e.selectedIndex].value;
+	if (~election.indexOf('2')) {
+		Locul2 = true;
+		election = election.substr(1);
+	}
+	window.prepareData();
 	//window.location = `index.html?file=${val}`;
 }
 document.querySelectorAll('input[name="tipIzolare"]').forEach(e => e.addEventListener('change', () => {
 	if (isNaN(window.partySelected)) window.reparseData();
 }));
 document.getElementById('collapse').onclick = function() {
-    document.getElementById('tipIzolare').classList.toggle('hide');
-    document.getElementById('legend').classList.toggle('hide');
-    document.getElementById('selectElection').classList.toggle('hide');
-    
+	document.getElementById('tipIzolare').classList.toggle('hide');
+	document.getElementById('legend').classList.toggle('hide');
+	document.getElementById('selectElection').classList.toggle('hide');
+
 	document.getElementById('ascunde').classList.toggle('hide');
 	document.getElementById('arata').classList.toggle('hide');
 }
@@ -135,6 +135,12 @@ window.partyMaxVotes = {};
 window.partyMaxPercentage = {};
 window.reparseData = () => {
 	const isolationType = document.querySelector('input[name="tipIzolare"]:checked').value;
+	let partideComp = [];
+	if (document.querySelectorAll('.comp:checked').length >= 2) {
+		document.querySelectorAll('.comp:checked').forEach(e => {
+			partideComp.push(e.getAttribute('data-partid'));
+		})
+	}
 	fetch('map/comune.geojson')
 		.then(response => response.json())
 		.then(async data => {
@@ -198,6 +204,12 @@ window.reparseData = () => {
 									} else fillOpacity = 0.01;
 								}
 							}
+							if (partideComp.length === 2) {
+								if (rezultat.hasOwnProperty(partideComp[0]) && rezultat.hasOwnProperty(partideComp[1])) {
+									if (rezultat[partideComp[0]] > rezultat[partideComp[1]]) fillColor = window.partide[partideComp[0]]
+									else fillColor = window.partide[partideComp[1]]
+								}else fillColor = '#dddddd';
+							}
 
 						}
 					}
@@ -215,13 +227,20 @@ window.reparseData = () => {
 				Object.keys(window.partide).forEach(e => {
 					let el = document.querySelector(`#legend div[style="background: ${window.partide[e]};"]`);
 					el.setAttribute('data-votes', window.partiesPercentage[e]);
-					if (el) el.innerHTML = `<span>${e}: ${winnerParties[e] || 0} UAT-uri, ${(window.partiesPercentage[e] / window.totalVoturi * 100).toFixed(3)}%</span>`;
+					if (el) el.innerHTML = `<input type="checkbox" class="comp" data-partid="${e}"><span>${e}: ${winnerParties[e] || 0} UAT-uri, ${(window.partiesPercentage[e] / window.totalVoturi * 100).toFixed(3)}%</span>`;
 				});
 				const container = document.querySelector('#legend');
 				const order = -1;
 				Array.from(container.children)
 					.sort((a, b) => order * parseInt(a.dataset.votes, 10) - order * parseInt(b.dataset.votes, 10))
 					.forEach(element => container.appendChild(element));
+
+				document.querySelectorAll('.comp').forEach((e) => e.onchange = (x) => {
+					if (document.querySelectorAll('.comp:checked').length >= 2)
+						document.querySelectorAll('.comp:not(:checked)').forEach(e => e.setAttribute('disabled', 'true'));
+					else
+						document.querySelectorAll('.comp').forEach(e => e.removeAttribute('disabled'));
+				});
 			}
 		});
 }
