@@ -184,7 +184,7 @@ window.reparseData = () => {
 								if (isolationType === 'simple') {
 									if (castigator != window.partySelected) {
 										if (rezultat.hasOwnProperty(window.partySelected))
-											fillOpacity = 0.5;
+											fillOpacity = 0.2;
 										else
 											fillOpacity = 0.01;
 									}
@@ -192,7 +192,6 @@ window.reparseData = () => {
 									if (rezultat.hasOwnProperty(window.partySelected)) {
 										let procent = (rezultat[window.partySelected] / totalVoturi);
 										fillOpacity = (procent / window.partyMaxPercentage[window.partySelected]) * 100;
-										if (fillOpacity > 0.9) console.log(procent, county, comuna);
 										fillColor = window.partide[window.partySelected];
 									} else fillOpacity = 0.01;
 								} else if (isolationType === 'votes') {
