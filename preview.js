@@ -16,11 +16,19 @@ window.totalVoturi = 0;
 let legend = document.getElementById('legend');
 Object.keys(window.partide).forEach((e) => {
 	legend.insertAdjacentHTML('beforeend', `
-    <div style="background: ${window.partide[e]};" data-partid="${e}"><span>${e}</span></div>
+    <div class="rp" data-partid="${e}" style="background: ${window.partide[e]};" ><input type="checkbox" class="comp" data-partid="${e}"><div class="p"  style="background: ${window.partide[e]};" data-partid="${e}"><span>${e}</span></div></div>
     `)
+
+	document.querySelectorAll('.comp').forEach((e) => e.onchange = (x) => {
+		if (document.querySelectorAll('.comp:checked').length >= 2) {
+			document.querySelectorAll('.comp:not(:checked)').forEach(e => e.setAttribute('disabled', 'true'));
+			window.reparseData();
+		} else
+			document.querySelectorAll('.comp').forEach(e => e.removeAttribute('disabled'));
+	});
 })
 
-let els = document.querySelectorAll('#legend div');
+let els = document.querySelectorAll('#legend div.p');
 for (i = 0; i < els.length; i++) {
 	els[i].addEventListener('click', function() {
 		let party = this.getAttribute('data-partid');
@@ -130,19 +138,26 @@ function onEachFeature(feature, layer) {
 		.setContent(popupContent);
 	layer.bindPopup(popup);
 }
+window.Commune = 0;
+let getCommunes = async () => {
+	if (!window.Commune) {
+		const f = await fetch('map/comune.geojson');
+		const j = await f.json();
+		window.Commune = j;
+		return window.Commune;
+	} else return window.Commune;
+}
 let geoJSON = null;
 window.partyMaxVotes = {};
 window.partyMaxPercentage = {};
+
 window.reparseData = () => {
 	const isolationType = document.querySelector('input[name="tipIzolare"]:checked').value;
 	let partideComp = [];
-	if (document.querySelectorAll('.comp:checked').length >= 2) {
-		document.querySelectorAll('.comp:checked').forEach(e => {
-			partideComp.push(e.getAttribute('data-partid'));
-		})
-	}
-	fetch('map/comune.geojson')
-		.then(response => response.json())
+	document.querySelectorAll('.comp:checked').forEach(e => {
+		partideComp.push(e.getAttribute('data-partid'));
+	})
+	getCommunes()
 		.then(async data => {
 			if (geoJSON) geoJSON.removeFrom(map);
 			geoJSON = await L.geoJSON(data, {
@@ -206,9 +221,13 @@ window.reparseData = () => {
 							if (partideComp.length === 2) {
 								if (rezultat.hasOwnProperty(partideComp[0]) && rezultat.hasOwnProperty(partideComp[1])) {
 									if (rezultat[partideComp[0]] > rezultat[partideComp[1]]) fillColor = window.partide[partideComp[0]]
-                                    else fillColor = window.partide[partideComp[1]]
-                                    if (isolationType === 'simple') fillOpacity = 1;
-								}else fillColor = '#dddddd';
+									else fillColor = window.partide[partideComp[1]]
+									if (isolationType === 'simple') fillOpacity = 1;
+								} else {
+									if (rezultat.hasOwnProperty(partideComp[0])) fillColor = window.partide[partideComp[0]];
+									if (rezultat.hasOwnProperty(partideComp[1])) fillColor = window.partide[partideComp[1]];
+									fillOpacity = 0.4
+								}
 							}
 
 						}
@@ -225,22 +244,15 @@ window.reparseData = () => {
 			geoJSON.addTo(map);
 			if (window.partySelected != -2 && window.partySelected < 0) {
 				Object.keys(window.partide).forEach(e => {
-					let el = document.querySelector(`#legend div[style="background: ${window.partide[e]};"]`);
+					let el = document.querySelector(`#legend div.p[data-partid="${e}"]`);
 					el.setAttribute('data-votes', window.partiesPercentage[e]);
-					if (el) el.innerHTML = `<input type="checkbox" class="comp" data-partid="${e}"><span>${e}: ${winnerParties[e] || 0} UAT-uri, ${(window.partiesPercentage[e] / window.totalVoturi * 100).toFixed(3)}%</span>`;
+					if (el) el.innerHTML = `<span>${e}: ${winnerParties[e] || 0} UAT-uri, ${(window.partiesPercentage[e] / window.totalVoturi * 100).toFixed(3)}%</span>`;
 				});
 				const container = document.querySelector('#legend');
 				const order = -1;
 				Array.from(container.children)
-					.sort((a, b) => order * parseInt(a.dataset.votes, 10) - order * parseInt(b.dataset.votes, 10))
+					.sort((a, b) => order * parseInt(a.querySelector('div[data-votes]').dataset.votes, 10) - order * parseInt(b.querySelector('div[data-votes]').dataset.votes, 10))
 					.forEach(element => container.appendChild(element));
-
-				document.querySelectorAll('.comp').forEach((e) => e.onchange = (x) => {
-					if (document.querySelectorAll('.comp:checked').length >= 2)
-						document.querySelectorAll('.comp:not(:checked)').forEach(e => e.setAttribute('disabled', 'true'));
-					else
-						document.querySelectorAll('.comp').forEach(e => e.removeAttribute('disabled'));
-				});
 			}
 		});
 }

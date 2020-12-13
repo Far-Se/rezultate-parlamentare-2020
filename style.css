@@ -166,6 +166,8 @@ div#legendC div[data-votes]> span {
     font-family: Consolas;
     font-size: 13px;
     font-weight: bold;
+    width: 100%;
+    display: inline-block;
 }
 #setari {
     display:flex;
@@ -181,4 +183,7 @@ div#legendC div[data-votes]> span {
 }
 #legend >div {
     display: flex;
+}
+.p[data-partid] {
+    width: 100%;
 }
