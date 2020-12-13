@@ -206,7 +206,8 @@ window.reparseData = () => {
 							if (partideComp.length === 2) {
 								if (rezultat.hasOwnProperty(partideComp[0]) && rezultat.hasOwnProperty(partideComp[1])) {
 									if (rezultat[partideComp[0]] > rezultat[partideComp[1]]) fillColor = window.partide[partideComp[0]]
-									else fillColor = window.partide[partideComp[1]]
+                                    else fillColor = window.partide[partideComp[1]]
+                                    if (isolationType === 'simple') fillOpacity = 1;
 								}else fillColor = '#dddddd';
 							}
 
