@@ -55,7 +55,7 @@ document.getElementById('elections').onchange = function() {
 	if (~election.indexOf('2')) {
 		Locul2 = true;
 		election = election.substr(1);
-	}
+	}else Locul2 = false;
 	window.prepareData();
 	//window.location = `index.html?file=${val}`;
 }
@@ -119,7 +119,7 @@ function onEachFeature(feature, layer) {
 		popupContent += `<h2>Locul 2: ${feature.properties.castigator}</h2>`;
 	else
 		popupContent += `<h2>Castigator: ${feature.properties.castigator}</h2>`;
-	popupContent += `<h3>TotalVoturi: ${feature.properties.totalVoturi}</h3>`;
+	popupContent += `<h3>Total Voturi: ${feature.properties.totalVoturi}</h3>`;
 	try {
 		feature.properties.data.forEach(e => {
 			if (window.partide[e.nume])
@@ -136,7 +136,7 @@ function onEachFeature(feature, layer) {
 			maxHeight: 800
 		})
 		.setContent(popupContent);
-	layer.bindPopup(popup);
+    layer.bindPopup(popup);
 }
 window.Commune = 0;
 let getCommunes = async () => {
